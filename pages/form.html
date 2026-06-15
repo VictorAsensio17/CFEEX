@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="../css/responsive.css">
 </head>
 <body>
-    <!-- Navbar -->
     <nav class="navbar">
         <div class="container">
             <div class="navbar-brand">
@@ -30,9 +29,7 @@
         </div>
     </nav>
 
-  
     <section style="padding: 80px 0; background: white;">
-
         <div class="container">
          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: start;">
             <div class="section-header">
@@ -41,7 +38,7 @@
                 <p>Completa el formulario a continuación para que podamos conocerte mejor y darte la bienvenida al club.</p> 
             </div>
 
-            <div style="background: #f8f9fa; padding: 40px; border-radius: 10px";>
+            <div style="background: #f8f9fa; padding: 40px; border-radius: 10px;">
                 <h3 style="font-size: 1.5rem; margin-bottom: 25px; color: var(--text-dark);">Solicitud de ingreso</h3>
 
                   <form id="admissionForm">
@@ -50,18 +47,15 @@
                         <input type="text" id="Nombre" name="Nombre" placeholder="Ej: Juan Pérez García" required>
                     </div>
 
-                   
                     <div class="form-group">
                         <label for="Telefono">Teléfono</label>
-                        <input type="tel" id="Teléfono" name="Telefono" placeholder="Ej: +34 600 000 000" required>
+                        <input type="tel" id="Telefono" name="Telefono" placeholder="Ej: +34 600 000 000" required>
                     </div>
-
 
                     <div class="form-group">
                          <label for="Email">Email universitario/personal</label>
                         <input type="email" id="Email" name="Email" placeholder="Ej:usuario@alumnos.unex.es/@gmail.com" required>
                     </div>
-
 
                     <div class="form-group">
                         <label for="Grupo">Grupo / Situación académica</label>
@@ -77,13 +71,10 @@
                         </select>
                     </div>
 
-
-
                     <div class="form-group">
                         <label for="Mensaje">Facultad / Campo de referencia</label>
                         <textarea id="Mensaje" name="Mensaje" placeholder="Ej: Facultad de Ciencias Económicas y Empresariales / Profesional en Finanzas" rows="3" required></textarea>
                     </div>
-
 
                     <button type="submit" class="btn btn-primary btn-submit" id="submitBtn">Enviar Solicitud de Ingreso</button>
 
@@ -92,10 +83,8 @@
               </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-    <!-- Footer -->
     <footer class="footer" style="background-color: #1a202c; color: #ffffff; padding: 60px 0 30px;">
        <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
             <div class="footer-content">
@@ -147,7 +136,7 @@
     </footer>
 
     <script>
-       document.getElementById('admissionForm').addEventListener('submit', function(e) {
+        document.getElementById('admissionForm').addEventListener('submit', function(e) {
             e.preventDefault(); // Evita que la página se recargue
 
             const form = this;
@@ -163,35 +152,61 @@
             // Recoger los datos del formulario
             const formData = new FormData(form);
             
-            // Añadir la Fecha actual automáticamente (formato dd/mm/yyyy, hh:mm:ss)
+            // Añadir la Fecha actual automáticamente
             const fechaActual = new Date().toLocaleString('es-ES');
             formData.append('Fecha', fechaActual);
 
-            // URL de tu API de Apps Script
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbwJ1wBTtwcmrZwL016VQdLTjIOtpqrhIRSV2enV0ngjFYX5_SgAEwZoxkQZvGMaYpBW/exec';
+            // Convertir datos a JSON para Make
+            const dataMake = Object.fromEntries(formData.entries());
 
-            // Enviar datos vía POST
-            fetch(scriptURL, { method: 'POST', body: formData })
-                .then(response => {
-                statusDiv.style.display = 'block';
-                statusDiv.style.color = '#1abc9c'; // Color principal del club
-                    statusDiv.innerText = '¡Solicitud enviada con éxito! Nos pondremos en contacto contigo pronto.';
-                    form.reset(); // Limpiar el formulario
+            // --- URLs de Destino ---
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbwJ1wBTtwcmrZwL016VQdLTjIOtpqrhIRSV2enV0ngjFYX5_SgAEwZoxkQZvGMaYpBW/exec';
+            const webhookURL = 'https://hook.eu1.make.com/ds8mmj3mc95trc9ukyg6kt97lttmdi8t';
+
+            // --- Petición 1: A Google Sheets (Apps Script) ---
+            const requestGoogle = fetch(scriptURL, { 
+                method: 'POST', 
+                body: formData 
+            });
+
+            // --- Petición 2: A Make.com (Formato JSON) ---
+            const requestMake = fetch(webhookURL, { 
+                method: 'POST', 
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(dataMake) 
+            });
+
+            // Ejecutar ambas peticiones simultáneamente
+            Promise.all([requestGoogle, requestMake])
+                .then(responses => {
+                    // Verificamos si la respuesta de Make fue exitosa (Google Apps Script puede dar opaca)
+                    const makeResponse = responses[1];
+                    
+                    if (makeResponse.ok || makeResponse.status === 200) {
+                        statusDiv.style.display = 'block';
+                        statusDiv.style.color = '#1abc9c'; // Color principal del club
+                        statusDiv.innerText = '¡Solicitud enviada con éxito! Revisa tu correo para la confirmación.';
+                        form.reset(); // Limpiar el formulario
+                    } else {
+                        throw new Error('El Webhook falló.');
+                    }
                 })
-                  .catch(error => {
-                statusDiv.style.display = 'block';
-                statusDiv.style.color = '#e74c3c'; // Rojo para indicar error
-                    statusDiv.innerText = 'Hubo un error al enviar la solicitud. Por favor, inténtalo de nuevo.';
-    
-                console.error('Error!', error.message);
-           })
+                .catch(error => {
+                    statusDiv.style.display = 'block';
+                    statusDiv.style.color = '#e74c3c'; // Rojo para indicar error
+                    statusDiv.innerText = 'Hubo un error al procesar la solicitud. Por favor, inténtalo de nuevo.';
+                    console.error('Error enviando datos:', error);
+                })
                 .finally(() => {
                     // Restaurar el botón a su estado original
                     btn.innerText = originalText;
                     btn.disabled = false;
                 });
         });
-        </script>
+    </script>
 
     <script src="../js/scripts.js"></script>
-
+</body>
+</html>

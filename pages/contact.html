@@ -32,8 +32,7 @@
     </nav>
 
     <!-- Hero -->
-
-<style>
+    <style>
         @keyframes fadeAndSlideUp {
             from {
                 opacity: 0;
@@ -206,7 +205,7 @@
 
     <!-- Footer -->
     <footer class="footer" style="background-color: #1a202c; color: #ffffff; padding: 60px 0 30px;">
-       <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+        <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
             <div class="footer-content">
                 <div class="footer-section">
                     <div class="footer-logo">
@@ -262,37 +261,71 @@
             contactForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
 
-                const formData = new FormData(contactForm);
-                formData.set('subscribe', document.querySelector('input[name="subscribe"]').checked ? 'Sí' : 'No');
-                formData.set('_replyto', document.getElementById('contactEmail').value);
+                // 1. Recopilamos los datos de los inputs manualmente y los estructuramos en un objeto.
+                // Usamos JSON en lugar de FormData porque a Make.com le resulta más fácil leer el JSON
+                // automáticamente, y Formspree lo acepta igual de bien.
+                const payload = {
+                    name: document.getElementById('contactName').value,
+                    email: document.getElementById('contactEmail').value,
+                    subject: document.getElementById('contactSubject').value,
+                    message: document.getElementById('contactMessage').value,
+                    subscribe: document.querySelector('input[name="subscribe"]').checked ? 'Sí' : 'No',
+                    _subject: 'Nuevo mensaje desde el formulario de contacto',
+                    _replyto: document.getElementById('contactEmail').value
+                };
 
                 try {
-                    const response = await fetch(contactForm.action, {
+                    // 2. Preparamos la petición para Formspree (Donde tú recibes los correos)
+                    const peticionFormspree = fetch(contactForm.action, { // Esto toma el action="https://formspree.io/f/xqeolona"
                         method: 'POST',
-                         body: formData,
                         headers: {
+                            'Content-Type': 'application/json',
                             'Accept': 'application/json'
-                        }
+                        },
+                        body: JSON.stringify(payload)
                     });
 
-                    if (response.ok) {
-                        showNotification('¡Mensaje enviado correctamente! Gracias por contactarnos.', 'success');
+                    // 3. Preparamos la petición para Make.com (Para disparar la verificación al usuario)
+                    const peticionMake = fetch('https://hook.eu1.make.com/pqna1cy72ttleh9xllt9f8vrnibidn5q', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(payload)
+                    });
+
+                    // 4. Ejecutamos ambas peticiones al mismo tiempo
+                    const [respuestaFormspree, respuestaMake] = await Promise.all([peticionFormspree, peticionMake]);
+
+                    // 5. Comprobamos que el de Formspree haya dado OK 
+                    // (Asumimos que si llega a Formspree, Make también funcionó)
+                    if (respuestaFormspree.ok) {
+                        showNotification('¡Mensaje enviado correctamente! Revisa tu correo electrónico.', 'success');
                         contactForm.reset();
                     } else {
-                        const data = await response.json();
+                        const data = await respuestaFormspree.json();
                         const errorMessage = data.errors ? data.errors.map(error => error.message).join(', ') : 'No se pudo enviar el mensaje.';
                         showNotification(`Error al enviar el mensaje: ${errorMessage}`, 'error');
                     }
                 } catch (error) {
                     console.error('Error sending contact form:', error);
-                    showNotification('Error de red: no se pudo enviar el mensaje. Intenta de nuevo.', 'error');
+                    // Importante: Asegúrate de tener definida la función showNotification en tu main.js 
+                    // Si no la tienes definida, puedes cambiar esto por un simple alert('Error de red');
+                    if (typeof showNotification === 'function') {
+                        showNotification('Error de red: no se pudo enviar el mensaje. Intenta de nuevo.', 'error');
+                    } else {
+                        alert('Error de red: no se pudo enviar el mensaje. Intenta de nuevo.');
+                    }
                 }
 
-                setTimeout(() => removeNotification(), 5000);
+                // Ocultar notificación si la función removeNotification existe
+                if (typeof removeNotification === 'function') {
+                    setTimeout(() => removeNotification(), 5000);
+                }
             });
         }
 
-        // Make details elements work better
+        // Script para los detalles del FAQ
         document.querySelectorAll('details').forEach(detail => {
             detail.addEventListener('toggle', function() {
                 const summary = this.querySelector('summary');
