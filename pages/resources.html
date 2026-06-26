@@ -46,6 +46,33 @@
         }
      </style>
 
+     <style>
+    /* Clases para los botones de filtro */
+    .filter-btn {
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        /* Estilos por defecto (inactivos) basados en tus inline styles */
+        background: transparent;
+        border: 2px solid var(--text-dark, #333);
+        color: var(--text-dark, #333);
+    }
+
+    /* Estilo para el botón activo */
+    .filter-btn.active {
+        background: var(--primary-color, #007bff);
+        border: 2px solid var(--primary-color, #007bff);
+        color: white;
+    }
+
+    /* Clase para ocultar los artículos que no coincidan */
+    .hidden {
+        display: none !important;
+    }
+</style>
+
     <section class="hero" style="position: relative; height: 400px; display: flex; align-items: flex-end; padding-bottom: 60px; overflow: hidden;">
         <img src="../assets/resources.png" alt="Boletín del Miembro" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;">
         <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 60%; background: linear-gradient(to top, rgba(0,0,0,0.7), transparent); z-index: 1;"></div>
@@ -61,11 +88,11 @@
     <section style="padding: 40px 0; background: var(--light-bg);">
         <div class="container">
             <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
-                <button class="btn" style="background: var(--primary-color); color: white;">Todos</button>
-                <button class="btn" style="background: transparent; border: 2px solid var(--text-dark); color: var(--text-dark);">Tecnología</button>
-                <button class="btn" style="background: transparent; border: 2px solid var(--text-dark); color: var(--text-dark);">Macroeconomía</button>
-                <button class="btn" style="background: transparent; border: 2px solid var(--text-dark); color: var(--text-dark);">Mercados</button>
-                <button class="btn" style="background: transparent; border: 2px solid var(--text-dark); color: var(--text-dark);">Finanzas Personales</button>
+                <button class="filter-btn active" data-category="all">Todos</button>
+                <button class="filter-btn" data-category="tecnologia">Tecnología</button>
+                <button class="filter-btn" data-category="macroeconomia">Macroeconomía</button>
+                <button class="filter-btn" data-category="mercados">Mercados</button>
+                <button class="filter-btn" data-category="finanzas-personales">Finanzas Personales</button>
             </div>
         </div>
     </section>
@@ -74,51 +101,11 @@
     <section class="resources" style="padding: 60px 0;">
         <div class="container">
             <div class="resources-grid">
-                <article class="resource-card">
-                    <span class="resource-category">TECNOLOGÍA</span>
-                    <div class="resource-date">12 May, 2026</div>
-                    <h4>El impacto de la IA en los modelos de valoración de activos</h4>
-                    <p>Exploramos cómo los algoritmos de machine learning están redefiniendo el análisis técnico y fundamental. Desde valoraciones por descuento de flujos hasta análisis sentimiento en redes sociales.</p>
-                    <a href="#" class="read-more">Leer Artículo →</a>
-                </article>
-
-                <article class="resource-card">
+                <article class="resource-card" data-category="macroeconomia">
                     <span class="resource-category">MACROECONOMÍA</span>
-                    <div class="resource-date">08 May, 2026</div>
-                    <h4>Perspectivas del BCE: Tipos de interés y control de inflación</h4>
-                    <p>Análisis de las últimas declaraciones de Christine Lagarde y su repercusión en el mercado de renta fija. Proyecciones de tipos para 2026-2027.</p>
-                    <a href="#" class="read-more">Leer Artículo →</a>
-                </article>
-
-                <article class="resource-card">
-                    <span class="resource-category">MERCADOS</span>
-                    <div class="resource-date">02 May, 2026</div>
-                    <h4>Criptoactivos: ¿Refugio de valor o burbuja especulativa?</h4>
-                    <p>Un debate profundo sobre la naturaleza de Bitcoin tras el último halving y la adopción institucional. Análisis técnico y comparativas con oro.</p>
-                    <a href="#" class="read-more">Leer Artículo →</a>
-                </article>
-
-                <article class="resource-card">
-                    <span class="resource-category">FINANZAS PERSONALES</span>
-                    <div class="resource-date">28 Apr, 2026</div>
-                    <h4>Guía de Inversión para Millennials</h4>
-                    <p>Estrategias de inversión adaptadas a la generación actual. Desde fondos indexados hasta inversión temática en empresas tecnológicas.</p>
-                    <a href="#" class="read-more">Leer Artículo →</a>
-                </article>
-
-                <article class="resource-card">
-                    <span class="resource-category">TECNOLOGÍA</span>
-                    <div class="resource-date">22 Apr, 2026</div>
-                    <h4>Fintech Ibérica: Nuevos Players en el Sector Bancario</h4>
-                    <p>Análisis de las principales startups fintech en España y Portugal. Modelos de negocio disruptivos y valoraciones.</p>
-                    <a href="#" class="read-more">Leer Artículo →</a>
-                </article>
-
-                <article class="resource-card">
-                    <span class="resource-category">MACROECONOMÍA</span>
-                    <div class="resource-date">18 Apr, 2026</div>
-                    <h4>Transición Energética: Oportunidades de Inversión</h4>
-                    <p>Exploración de las inversiones en energías renovables, vehículos eléctricos y sostenibilidad. Megatendencias a largo plazo.</p>
+                    <div class="resource-date">26 Jun, 2026 - Autores: Juan M. Gómez y Víctor Asensio</div>
+                    <h4>Análisis financiero del Mundial 2026</h4>
+                    <p>Investigación de las oportunidades económicas generadas por el torneo para los países organizadores, además de su impacto en el turismo y la infraestructura.</p>
                     <a href="#" class="read-more">Leer Artículo →</a>
                 </article>
             </div>
@@ -134,48 +121,71 @@
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px;">
                 <div style="background: white; padding: 30px; border-radius: 10px; box-shadow: var(--shadow); text-align: center;">
                     <div style="font-size: 3rem; margin-bottom: 15px;"></div>
-                    <h4 style="margin-bottom: 10px;">Dashboard de Mercados</h4>
-                    <p style="color: var(--text-light); margin-bottom: 15px;">Acceso a datos en tiempo real del IBEX, S&P 500, EUR/USD.</p>
-                    <a href="#" class="btn btn-primary" style="display: inline-block;">Acceder</a>
-                </div>
-
-                <div style="background: white; padding: 30px; border-radius: 10px; box-shadow: var(--shadow); text-align: center;">
-                    <div style="font-size: 3rem; margin-bottom: 15px;"></div>
-                    <h4 style="margin-bottom: 10px;">Biblioteca Digital</h4>
-                    <p style="color: var(--text-light); margin-bottom: 15px;">Libros, papers y estudios en finanzas e inversión.</p>
-                    <a href="#" class="btn btn-primary" style="display: inline-block;">Explorar</a>
-                </div>
-
-                <div style="background: white; padding: 30px; border-radius: 10px; box-shadow: var(--shadow); text-align: center;">
-                    <div style="font-size: 3rem; margin-bottom: 15px;"></div>
-                    <h4 style="margin-bottom: 10px;">Videoteca</h4>
-                    <p style="color: var(--text-light); margin-bottom: 15px;">Grabaciones de talleres, charlas y sesiones formativas.</p>
-                    <a href="#" class="btn btn-primary" style="display: inline-block;">Ver Videos</a>
-                </div>
-
-                <div style="background: white; padding: 30px; border-radius: 10px; box-shadow: var(--shadow); text-align: center;">
-                    <div style="font-size: 3rem; margin-bottom: 15px;"></div>
-                    <h4 style="margin-bottom: 10px;">Directorio de Contactos</h4>
-                    <p style="color: var(--text-light); margin-bottom: 15px;">Red de profesionales y empresas aliadas.</p>
-                    <a href="#" class="btn btn-primary" style="display: inline-block;">Consultar</a>
-                </div>
-
-                <div style="background: white; padding: 30px; border-radius: 10px; box-shadow: var(--shadow); text-align: center;">
-                    <div style="font-size: 3rem; margin-bottom: 15px;"></div>
-                    <h4 style="margin-bottom: 10px;">Plantillas Excel</h4>
-                    <p style="color: var(--text-light); margin-bottom: 15px;">Herramientas para análisis de inversiones.</p>
-                    <a href="#" class="btn btn-primary" style="display: inline-block;">Descargar</a>
-                </div>
-
-                <div style="background: white; padding: 30px; border-radius: 10px; box-shadow: var(--shadow); text-align: center;">
-                    <div style="font-size: 3rem; margin-bottom: 15px;"></div>
-                    <h4 style="margin-bottom: 10px;">Comunidad Privada</h4>
-                    <p style="color: var(--text-light); margin-bottom: 15px;">Foro de debate e intercambio de ideas.</p>
-                    <a href="#" class="btn btn-primary" style="display: inline-block;">Unirse</a>
+                    <h4 style="margin-bottom: 10px;">RECURSOS EXLUSIVOS PARA MIEMBROS</h4>
+                    <p style="color: var(--text-light); margin-bottom: 15px;">Acceso a contenido premium y materiales de estudio para todos aquellos que forman parte de nuestra comunidad.</p>
+                    <a href="https://drive.google.com/drive/folders/1u8cMCYklMy3spc8efhpDsxEe8Hus7Dxh?usp=sharing" class="btn btn-primary" style="display: inline-block;">Acceder</a>
                 </div>
             </div>
         </div>
     </section>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const buttons = document.querySelectorAll('.filter-btn');
+        const cards = document.querySelectorAll('.resource-card');
+        
+        // Usamos un Set para almacenar las categorías seleccionadas
+        let activeCategories = new Set(['all']);
+
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                const category = button.getAttribute('data-category');
+
+                if (category === 'all') {
+                    // Si se hace clic en "Todos", limpiamos las demás y dejamos solo 'all'
+                    activeCategories.clear();
+                    activeCategories.add('all');
+                    
+                    // Actualizamos visualmente los botones
+                    buttons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                } else {
+                    // Si se hace clic en una categoría específica, quitamos 'all'
+                    if (activeCategories.has('all')) {
+                        activeCategories.delete('all');
+                        document.querySelector('[data-category="all"]').classList.remove('active');
+                    }
+
+                    // Alternamos la selección actual
+                    if (activeCategories.has(category)) {
+                        activeCategories.delete(category);
+                        button.classList.remove('active');
+                    } else {
+                        activeCategories.add(category);
+                        button.classList.add('active');
+                    }
+
+                    // Si desmarcamos todo, volvemos a seleccionar "Todos" por defecto
+                    if (activeCategories.size === 0) {
+                        activeCategories.add('all');
+                        document.querySelector('[data-category="all"]').classList.add('active');
+                    }
+                }
+
+                // Filtramos las tarjetas basándonos en el Set de categorías activas
+                cards.forEach(card => {
+                    const cardCategory = card.getAttribute('data-category');
+                    
+                    if (activeCategories.has('all') || activeCategories.has(cardCategory)) {
+                        card.classList.remove('hidden');
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+            });
+        });
+    });
+</script>
 
     <!-- Footer -->
    <footer class="footer" style="background-color: #1a202c; color: #ffffff; padding: 60px 0 30px;">
