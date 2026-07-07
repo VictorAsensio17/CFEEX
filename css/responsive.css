@@ -143,6 +143,17 @@
     }
 }
 
+@media (min-width: 1024px) {
+    .footer-content {
+        grid-template-columns: 1.6fr 0.8fr 0.8fr 1fr;
+    }
+
+    .footer-map-section {
+        justify-self: end;
+        max-width: 320px;
+    }
+}
+
 @media (max-width: 600px) {
     .container {
         padding: 0 15px;
