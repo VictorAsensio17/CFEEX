@@ -25,7 +25,7 @@
 
             <button id="menu-btn" class="mobile-menu-btn" aria-label="Abrir menú" aria-expanded="false">☰</button>
 
-            <ul class="nav-links">
+            <ul id="menu-links" class="nav-links">
                 <li><a href="#inicio" class="active">Inicio</a></li>
                 <li><a href="pages/about.html">Sobre Nosotros</a></li>
                 <li><a href="pages/activities.html">Actividades</a></li>
@@ -425,24 +425,6 @@
         });
     </script>
 
-<script>
-    // Seleccionamos el botón y el contenedor del menú
-    const menuBtn = document.getElementById('menu-btn');
-    const menuLinks = document.getElementById('menu-links');
-
-    // Le decimos que escuche los clics
-    menuBtn.addEventListener('click', function() {
-        // La clase 'active' se pondrá o quitará cada vez que pulses
-        menuLinks.classList.toggle('active');
-        
-        // Efecto visual opcional: cambia el icono de hamburguesa (☰) a una equis (✕)
-        if(menuLinks.classList.contains('active')){
-            menuBtn.innerHTML = '✕';
-        } else {
-            menuBtn.innerHTML = '☰';
-        }
-    });
-</script>
-
+<script src="js/main.js"></script>
 </body>
 </html>
