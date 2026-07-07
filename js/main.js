@@ -96,7 +96,10 @@ if (menuButton && navLinks) {
     overlay.addEventListener('click', closeMenu);
 
     navLinks.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', closeMenu);
+        link.addEventListener('click', (event) => {
+            event.stopPropagation();
+            closeMenu();
+        });
     });
 
     window.addEventListener('resize', () => {
