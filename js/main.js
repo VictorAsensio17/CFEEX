@@ -61,14 +61,48 @@ window.addEventListener('scroll', () => {
 });
 
 // Mobile Menu Toggle
-const hamburger = document.querySelector('.hamburger');
+const menuButton = document.querySelector('.mobile-menu-btn');
 const navLinks = document.querySelector('.nav-links');
-const ctaButton = document.querySelector('.cta-button');
 
-if (hamburger) {
-    hamburger.addEventListener('click', () => {
-        // This would require mobile menu structure - placeholder for now
-        console.log('Mobile menu toggled');
+if (menuButton && navLinks) {
+    const overlay = document.createElement('div');
+    overlay.className = 'mobile-nav-overlay';
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(overlay);
+
+    const closeButton = document.createElement('button');
+    closeButton.className = 'mobile-menu-btn mobile-menu-close';
+    closeButton.type = 'button';
+    closeButton.setAttribute('aria-label', 'Cerrar menú');
+    closeButton.innerHTML = '✕';
+    navLinks.prepend(closeButton);
+
+    const closeMenu = () => {
+        navLinks.classList.remove('active');
+        overlay.classList.remove('active');
+        document.body.classList.remove('menu-open');
+        menuButton.setAttribute('aria-expanded', 'false');
+    };
+
+    menuButton.addEventListener('click', () => {
+        const isOpen = !navLinks.classList.contains('active');
+        navLinks.classList.toggle('active', isOpen);
+        overlay.classList.toggle('active', isOpen);
+        document.body.classList.toggle('menu-open', isOpen);
+        menuButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+
+    closeButton.addEventListener('click', closeMenu);
+    overlay.addEventListener('click', closeMenu);
+
+    navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', closeMenu);
+    });
+
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 768) {
+            closeMenu();
+        }
     });
 }
 
