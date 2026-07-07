@@ -65,11 +65,6 @@ const menuButton = document.querySelector('.mobile-menu-btn');
 const navLinks = document.querySelector('.nav-links');
 
 if (menuButton && navLinks) {
-    const overlay = document.createElement('div');
-    overlay.className = 'mobile-nav-overlay';
-    overlay.setAttribute('aria-hidden', 'true');
-    document.body.appendChild(overlay);
-
     const closeButton = document.createElement('button');
     closeButton.className = 'mobile-menu-btn mobile-menu-close';
     closeButton.type = 'button';
@@ -79,21 +74,31 @@ if (menuButton && navLinks) {
 
     const closeMenu = () => {
         navLinks.classList.remove('active');
-        overlay.classList.remove('active');
         document.body.classList.remove('menu-open');
         menuButton.setAttribute('aria-expanded', 'false');
     };
 
-    menuButton.addEventListener('click', () => {
+    menuButton.addEventListener('click', (event) => {
+        event.stopPropagation();
         const isOpen = !navLinks.classList.contains('active');
         navLinks.classList.toggle('active', isOpen);
-        overlay.classList.toggle('active', isOpen);
         document.body.classList.toggle('menu-open', isOpen);
         menuButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     });
 
-    closeButton.addEventListener('click', closeMenu);
-    overlay.addEventListener('click', closeMenu);
+    closeButton.addEventListener('click', (event) => {
+        event.stopPropagation();
+        closeMenu();
+    });
+
+    document.addEventListener('click', (event) => {
+        const clickedInsideMenu = navLinks.contains(event.target);
+        const clickedMenuButton = menuButton.contains(event.target);
+
+        if (!clickedInsideMenu && !clickedMenuButton && navLinks.classList.contains('active')) {
+            closeMenu();
+        }
+    });
 
     navLinks.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', (event) => {
