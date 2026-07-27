@@ -189,6 +189,21 @@
         padding: 40px 0;
     }
 
+    /* Contact: stack columns and adjust spacing on small screens */
+    .contact-grid {
+        grid-template-columns: 1fr !important;
+        gap: 24px !important;
+    }
+
+    .contact-grid .form-box {
+        padding: 20px !important;
+    }
+
+    .contact-grid .social-links {
+        gap: 12px !important;
+        flex-wrap: wrap;
+    }
+
     .hero-content h1 {
         font-size: 1.8rem;
         margin-bottom: 15px;
