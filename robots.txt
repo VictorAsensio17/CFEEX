@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://cfeex.es/sitemap.xml
