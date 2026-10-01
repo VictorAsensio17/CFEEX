@@ -558,6 +558,12 @@ body {
     transition: var(--transition);
 }
 
+.resources-grid > .view-all {
+    grid-column: 1 / -1;
+    justify-self: center;
+    text-align: center;
+}
+
 .view-all:hover {
     color: var(--secondary-color);
 }
