@@ -558,9 +558,10 @@ body {
     transition: var(--transition);
 }
 
-.resources-grid > .view-all {
+.resources .resources-grid > a.view-all {
     grid-column: 1 / -1;
-    justify-self: center;
+    display: block;
+    width: 100%;
     text-align: center;
 }
 
