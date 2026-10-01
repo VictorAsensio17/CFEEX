@@ -558,11 +558,10 @@ body {
     transition: var(--transition);
 }
 
-.resources .resources-grid > a.view-all {
-    grid-column: 1 / -1;
-    display: block;
-    width: 100%;
-    text-align: center;
+.resources-action {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
 }
 
 .view-all:hover {
