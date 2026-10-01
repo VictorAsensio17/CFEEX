@@ -728,9 +728,20 @@ body {
 .resource-icon { font-size: 2.5rem; display: block; margin-bottom: 10px; } 
 
 .resources .section-header { margin-bottom: 60px; } 
-.resources-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; } 
+.resources-carousel { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 16px; }
+.resources-viewport { min-width: 0; overflow-x: auto; scroll-behavior: smooth; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.resources-viewport::-webkit-scrollbar { display: none; }
+.resources-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+.resources-carousel .resources-grid { display: flex; gap: 30px; }
+.resources-arrow { display: grid; place-items: center; width: 46px; height: 46px; padding: 0; border: 0; border-radius: 50%; background: var(--primary-color); color: var(--white); box-shadow: 0 4px 12px rgba(24, 73, 60, 0.2); cursor: pointer; transition: var(--transition); }
+.resources-arrow-icon { display: block; width: 19px; height: 16px; background: currentColor; clip-path: polygon(0 37%, 63% 37%, 63% 0, 100% 50%, 63% 100%, 63% 63%, 0 63%); }
+.resources-arrow-prev .resources-arrow-icon { transform: scaleX(-1); }
+.resources-arrow:hover:not(:disabled) { filter: brightness(0.9); transform: translateY(-2px); box-shadow: 0 7px 16px rgba(24, 73, 60, 0.25); }
+.resources-arrow:focus-visible { outline: 3px solid var(--primary-color); outline-offset: 3px; }
+.resources-arrow:disabled { border: 1px solid #d7e3df; background: #edf3f1; color: #71877f; box-shadow: none; cursor: default; }
 
-.resource-card { background: #f8f9fa; padding: 25px; border-radius: 10px; transition: var(--transition); display: flex; flex-direction: column; } 
+.resource-card { background: #f8f9fa; padding: 25px; border-radius: 10px; transition: var(--transition); display: flex; flex-direction: column; }
+.resources-carousel .resource-card { flex: 0 0 calc((100% - 30px) / 2); scroll-snap-align: start; }
 .resource-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); } 
 
 .resource-category { display: inline-block; background: var(--primary-color); color: var(--white); padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; margin-bottom: 10px; letter-spacing: 1px; width: fit-content; } 

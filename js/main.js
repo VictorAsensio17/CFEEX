@@ -2,6 +2,37 @@
    JAVASCRIPT - CLUB FINANZAS EXTREMADURA
    ============================================ */
 
+const resourcesViewport = document.querySelector('.resources-viewport');
+const resourcesTrack = document.querySelector('.resources-grid');
+const previousResourceButton = document.querySelector('.resources-arrow-prev');
+const nextResourceButton = document.querySelector('.resources-arrow-next');
+
+if (resourcesViewport && resourcesTrack && previousResourceButton && nextResourceButton) {
+    const updateResourceButtons = () => {
+        const maxScroll = resourcesViewport.scrollWidth - resourcesViewport.clientWidth;
+        previousResourceButton.disabled = resourcesViewport.scrollLeft <= 1;
+        nextResourceButton.disabled = resourcesViewport.scrollLeft >= maxScroll - 1;
+    };
+
+    const scrollResources = (direction) => {
+        const firstCard = resourcesTrack.querySelector('.resource-card');
+        if (!firstCard) return;
+
+        const trackStyles = window.getComputedStyle(resourcesTrack);
+        const gap = parseFloat(trackStyles.columnGap) || 0;
+        resourcesViewport.scrollBy({
+            left: direction * (firstCard.getBoundingClientRect().width + gap),
+            behavior: 'smooth'
+        });
+    };
+
+    previousResourceButton.addEventListener('click', () => scrollResources(-1));
+    nextResourceButton.addEventListener('click', () => scrollResources(1));
+    resourcesViewport.addEventListener('scroll', updateResourceButtons);
+    window.addEventListener('resize', updateResourceButtons);
+    updateResourceButtons();
+}
+
 // Smooth scroll navigation
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {

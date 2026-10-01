@@ -129,7 +129,16 @@
     }
 
     .resources-grid {
-        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .resources-carousel .resource-card {
+        flex-basis: 100%;
+    }
+
+    .resources-arrow {
+        width: 38px;
+        height: 38px;
     }
 
     .resource-icon {
