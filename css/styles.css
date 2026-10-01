@@ -552,6 +552,14 @@ body {
 }
 
 .view-all {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border: 1px solid var(--primary-color);
+    border-radius: 6px;
+    background: var(--white);
     color: var(--primary-color);
     text-decoration: none;
     font-weight: 600;
@@ -565,7 +573,15 @@ body {
 }
 
 .view-all:hover {
-    color: var(--secondary-color);
+    background: var(--primary-color);
+    color: var(--white);
+    box-shadow: 0 4px 12px rgba(24, 73, 60, 0.16);
+    transform: translateY(-1px);
+}
+
+.view-all:focus-visible {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 3px;
 }
 
 .events-grid {
