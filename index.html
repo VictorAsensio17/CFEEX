@@ -36,7 +36,7 @@
             <a href="#inicio" class="navbar-brand" style="display:flex; align-items:center; text-decoration:none; color:inherit;">
                 <div class="logo">
                     <img src="assets/favicon.png" alt="Club Finanzas EEX Logo" class="logo-icon">
-                    <span class="logo-text" style="font-weight: arial; color: #1d5c21;">CFEEX</span>
+                    <span class="logo-text">CFEEX</span>
                 </div>
             </a>
 
@@ -157,9 +157,9 @@
                 </div>
             </div>
             <div class="hero-image" style="flex: 1; min-width: 300px; position: relative; z-index: 10;">
-                <div class="market-overview tradingview-hero-container">
+                <div class="market-overview tradingview-hero-container tradingview-carousel" role="region" aria-label="Gráficas del mercado">
                     <!-- Chart 1: Oro -->
-                    <div class="tradingview-widget-wrapper-small">
+                    <div class="tradingview-widget-wrapper-small" data-chart-title="Oro">
                         <div id="tradingview_chart_gold"></div>
                         <script type="text/javascript">
                             new TradingView.widget({
@@ -181,7 +181,7 @@
                     </div>
 
                     <!-- Chart 2: Core S&P 500 USD -->
-                    <div class="tradingview-widget-wrapper-small">
+                    <div class="tradingview-widget-wrapper-small" data-chart-title="S&P 500">
                         <div id="tradingview_chart_sp500"></div>
                         <script type="text/javascript">
                             new TradingView.widget({
@@ -203,7 +203,7 @@
                     </div>
 
                     <!-- Chart 3: Euro Stoxx 50 - Índice Estable -->
-                    <div class="tradingview-widget-wrapper-small">
+                    <div class="tradingview-widget-wrapper-small" data-chart-title="Euro Stoxx 50">
                         <div id="tradingview_chart_eurusd"></div>
                         <script type="text/javascript">
                             new TradingView.widget({
@@ -223,6 +223,18 @@
                             });
                         </script>
                     </div>
+                </div>
+                <div class="chart-carousel-controls">
+                    <button class="chart-carousel-arrow chart-carousel-prev" type="button" aria-label="Ver gráfica anterior" disabled><span aria-hidden="true">‹</span></button>
+                    <div class="chart-carousel-status">
+                        <span class="chart-carousel-title" aria-live="polite">Oro · 1 de 3</span>
+                        <div class="chart-carousel-dots" aria-hidden="true">
+                            <span class="is-active"></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                    <button class="chart-carousel-arrow chart-carousel-next" type="button" aria-label="Ver gráfica siguiente"><span aria-hidden="true">›</span></button>
                 </div>
             </div>
         </div>

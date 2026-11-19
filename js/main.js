@@ -33,6 +33,51 @@ if (resourcesViewport && resourcesTrack && previousResourceButton && nextResourc
     updateResourceButtons();
 }
 
+const chartCarouselTrack = document.querySelector('.tradingview-carousel');
+if (chartCarouselTrack) {
+    const chartSlides = Array.from(chartCarouselTrack.children);
+    const chartControls = chartCarouselTrack.parentElement.querySelector('.chart-carousel-controls');
+    const previousChartButton = chartControls.querySelector('.chart-carousel-prev');
+    const nextChartButton = chartControls.querySelector('.chart-carousel-next');
+    const chartTitle = chartControls.querySelector('.chart-carousel-title');
+    const chartDots = Array.from(chartControls.querySelectorAll('.chart-carousel-dots span'));
+
+    if (chartSlides.length && previousChartButton && nextChartButton && chartTitle) {
+        let activeChartIndex = 0;
+        const mobileChartView = window.matchMedia('(max-width: 768px)');
+
+        const updateChartCarousel = () => {
+            const isMobile = mobileChartView.matches;
+            chartCarouselTrack.style.transform = isMobile
+                ? `translateX(-${activeChartIndex * 100}%)`
+                : '';
+
+            chartSlides.forEach((slide, index) => {
+                const isHidden = isMobile && index !== activeChartIndex;
+                slide.setAttribute('aria-hidden', String(isHidden));
+                slide.inert = isHidden;
+            });
+
+            previousChartButton.disabled = !isMobile || activeChartIndex === 0;
+            nextChartButton.disabled = !isMobile || activeChartIndex === chartSlides.length - 1;
+            chartTitle.textContent = `${chartSlides[activeChartIndex].dataset.chartTitle} · ${activeChartIndex + 1} de ${chartSlides.length}`;
+            chartDots.forEach((dot, index) => {
+                dot.classList.toggle('is-active', index === activeChartIndex);
+            });
+        };
+
+        const moveChart = (direction) => {
+            activeChartIndex = Math.max(0, Math.min(chartSlides.length - 1, activeChartIndex + direction));
+            updateChartCarousel();
+        };
+
+        previousChartButton.addEventListener('click', () => moveChart(-1));
+        nextChartButton.addEventListener('click', () => moveChart(1));
+        window.addEventListener('resize', updateChartCarousel);
+        updateChartCarousel();
+    }
+}
+
 // Smooth scroll navigation
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
